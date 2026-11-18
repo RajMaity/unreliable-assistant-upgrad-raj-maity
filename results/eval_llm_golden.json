@@ -1,0 +1,354 @@
+{
+  "evidence_class": "measured",
+  "judge": "LLM-as-judge (same model family), not the RAGAS library",
+  "model": "anthropic/claude-haiku-4.5",
+  "llm_calls": 84,
+  "KPI-20_faithfulness_pass_rate_llm_judge": 0.8333,
+  "KPI-20_mean_faithfulness_llm_judge": 0.9261,
+  "KPI-21_answer_relevancy_llm_judge": 0.9806,
+  "KPI-17_mean_react_steps": 0.963,
+  "KPI-23_abstention_accuracy": 0.8889,
+  "KPI-25_llm_call_p95_ms_full_response_not_ttft": 2301.0,
+  "e2e_wall_p50_ms": 2125.3,
+  "e2e_wall_p95_ms": 3538.4,
+  "e2e_wall_p99_ms": 4930.2,
+  "loop_budget_ms": 450.0,
+  "rows": [
+    {
+      "q": "What is the safety protocol for LOT-88392?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The safety protocol for LOT-88392 is: (1) Quarantine the lot until the safety protocol review closes, as LOT-88392 contains SKU-204 relays from a batch under safety review. (2) Escalate any LOT-88392 deviation via the escalation matrix, which requires notification to the on-call safety engineer with",
+      "citations": [
+        "chk_2e1eb2f632333957",
+        "chk_a54b2af9bfe294d3",
+        "chk_c4c405d7a89ad734"
+      ],
+      "wall_ms": 3385.4,
+      "iterations": 1,
+      "faithfulness_judge": 0.92,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "Which storage conditions apply to LOT-00044?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "LOT-00044 should be stored between 5 and 30 degrees Celsius, kept dry, and away from direct sunlight. Since LOT-00044 contains SKU-101 valves (electronic components), the general storage conditions also apply: humidity should be kept below 60 percent.",
+      "citations": [
+        "chk_4d8f7110f34fce0e",
+        "chk_7dbd7b0c192675bb"
+      ],
+      "wall_ms": 2125.3,
+      "iterations": 1,
+      "faithfulness_judge": 0.85,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "How often should SKU-099 pumps be inspected?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "SKU-099 pumps should be inspected routinely every 500 hours.",
+      "citations": [
+        "chk_db25c1f1fb8dca86"
+      ],
+      "wall_ms": 2367.7,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What seals are used with SKU-099?",
+      "answerable": true,
+      "status": "ESCAPED",
+      "answer": "llm budget exhausted",
+      "citations": [],
+      "wall_ms": 3538.4,
+      "iterations": 3,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "When is the diaphragm of SKU-101 replaced?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The diaphragm of SKU-101 is replaced every 2000 hours.",
+      "citations": [
+        "chk_a94122aee3ab74f0"
+      ],
+      "wall_ms": 1904.3,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What does the relay SKU-204 do when the interlock trips?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "When the interlock trips, SKU-204 (a safety relay) cuts power.",
+      "citations": [
+        "chk_af235802640d14ac"
+      ],
+      "wall_ms": 2160.1,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 0.95
+    },
+    {
+      "q": "Who handles safety deviations within one hour?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The on-call safety engineer handles safety deviations within one hour.",
+      "citations": [
+        "chk_c4c405d7a89ad734"
+      ],
+      "wall_ms": 2428.6,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What is the returns policy window?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The returns policy window is 30 days from the date of purchase, provided the original packing slip is included with the return.",
+      "citations": [
+        "chk_442673dd8ff8307a"
+      ],
+      "wall_ms": 3326.4,
+      "iterations": 1,
+      "faithfulness_judge": 0.75,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "Where is LOT-10200 shipping to?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "LOT-10200 is shipping to the northern depot.",
+      "citations": [
+        "chk_7efec397eaf01b03"
+      ],
+      "wall_ms": 2798.0,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What are the day shift hours?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The day shift hours are 06:00 to 14:00 (6:00 AM to 2:00 PM).",
+      "citations": [
+        "chk_427793c31146d3eb"
+      ],
+      "wall_ms": 1945.5,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "How do I log a pump service?",
+      "answerable": true,
+      "status": "ABSTAINED",
+      "answer": "No grounded answer in the knowledge vault.",
+      "citations": [],
+      "wall_ms": 2243.1,
+      "iterations": 2,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Lock out power before inspection?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "Yes, lock out power before inspection. According to the safety protocol for pressurised equipment, power must be locked out before any inspection is performed. Additionally, two-person verification is required for any interlock change.",
+      "citations": [
+        "chk_a54b2af9bfe294d3"
+      ],
+      "wall_ms": 1952.6,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What humidity limit applies to electronic components?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The humidity limit for electronic components is below 60 percent.",
+      "citations": [
+        "chk_7dbd7b0c192675bb"
+      ],
+      "wall_ms": 2720.8,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 0.85
+    },
+    {
+      "q": "Which valve is a pressure relief valve?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "SKU-101 is a pressure relief valve. It is used with SKU-099 pumps and requires diaphragm replacement every 2000 hours.",
+      "citations": [
+        "chk_a94122aee3ab74f0"
+      ],
+      "wall_ms": 1967.0,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What happens to a damaged return?",
+      "answerable": true,
+      "status": "ABSTAINED",
+      "answer": "No grounded answer in the knowledge vault.",
+      "citations": [],
+      "wall_ms": 1018.3,
+      "iterations": 1,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Is LOT-88392 quarantined?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "Yes, LOT-88392 is quarantined. According to the Safety Batch Notice, LOT-88392 contains SKU-204 relays from a batch under safety protocol review and must remain quarantined until the review closes.",
+      "citations": [
+        "chk_2e1eb2f632333957"
+      ],
+      "wall_ms": 2021.6,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "When were seals last replaced on the pump log?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "According to the pump maintenance log, seals were last replaced at 4500 hours of operation on the pump (SKU-099).",
+      "citations": [
+        "chk_41ec314f9586e1f9"
+      ],
+      "wall_ms": 4930.2,
+      "iterations": 1,
+      "faithfulness_judge": 0.5,
+      "relevancy_judge": 0.85
+    },
+    {
+      "q": "What is the late shift time?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The late shift time is 14:00 to 22:00 (2:00 PM to 10:00 PM).",
+      "citations": [
+        "chk_427793c31146d3eb"
+      ],
+      "wall_ms": 1947.5,
+      "iterations": 1,
+      "faithfulness_judge": 1.0,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "Which SKU is the safety relay?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "SKU-204 is the safety relay. It is designated as Safety Relay SR-204 and cuts power when the safety-protocol interlock trips.",
+      "citations": [
+        "chk_af235802640d14ac"
+      ],
+      "wall_ms": 2582.6,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What temperature range suits storage of batch LOT-00044?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "The temperature range suitable for storage of batch LOT-00044 is 5 to 30 degrees Celsius. The batch should also be kept dry and away from direct sunlight.",
+      "citations": [
+        "chk_4d8f7110f34fce0e"
+      ],
+      "wall_ms": 2566.2,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "Does the safety protocol cover pressurised equipment?",
+      "answerable": true,
+      "status": "ANSWERED",
+      "answer": "Yes, the safety protocol covers pressurised equipment. According to the safety protocol documentation, the general safety protocol applies to all pressurised equipment and includes requirements such as locking out power before inspection and requiring two-person verification for any interlock change",
+      "citations": [
+        "chk_a54b2af9bfe294d3"
+      ],
+      "wall_ms": 2536.9,
+      "iterations": 1,
+      "faithfulness_judge": 0.95,
+      "relevancy_judge": 1.0
+    },
+    {
+      "q": "What is the mortgage interest rate today?",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "I cannot answer this question. The warehouse knowledge vault is designed to store and retrieve information about warehouse operations, inventory, SKUs, lots, and related logistics data. Mortgage interest rates are financial market data that would not be found in a warehouse knowledge vault. This que",
+      "citations": [],
+      "wall_ms": 1693.1,
+      "iterations": 0,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Explain quantum chromodynamics in detail",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "I cannot answer this question. Quantum chromodynamics is a theoretical physics topic that falls outside the scope of a warehouse knowledge vault, which is designed to store and retrieve information about inventory, logistics, SKUs, lots, and warehouse operations. The knowledge vault does not contain",
+      "citations": [],
+      "wall_ms": 1282.7,
+      "iterations": 0,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Who won the football match last night?",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "No grounded answer in the knowledge vault.",
+      "citations": [],
+      "wall_ms": 904.0,
+      "iterations": 1,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Write a poem about the ocean",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "I cannot answer this question based on the warehouse knowledge vault. The question asks me to write a creative poem about the ocean, which is not a factual retrieval task from the vault. My role is to answer questions using only evidence from the knowledge vault, which contains warehouse-related inf",
+      "citations": [],
+      "wall_ms": 1748.2,
+      "iterations": 0,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "What is the boiling point of ethanol?",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "No grounded answer in the knowledge vault.",
+      "citations": [],
+      "wall_ms": 1001.3,
+      "iterations": 1,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    },
+    {
+      "q": "Translate good morning into Japanese",
+      "answerable": false,
+      "status": "ABSTAINED",
+      "answer": "I cannot answer this question using the warehouse knowledge vault. The question asks for a Japanese translation of 'good morning,' which is a general language translation task unrelated to warehouse operations, inventory management, or the knowledge vault's domain. The vault is designed to answer qu",
+      "citations": [],
+      "wall_ms": 1907.4,
+      "iterations": 0,
+      "faithfulness_judge": null,
+      "relevancy_judge": null
+    }
+  ]
+}

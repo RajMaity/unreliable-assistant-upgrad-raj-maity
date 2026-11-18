@@ -1,0 +1,29 @@
+{
+  "$comment": "PROPOSED schema (not yet in design.md; needs ADR approval). Registers MCP servers and pluggy plugins.",
+  "schema_version": "0.1-proposed",
+  "servers": {
+    "hybrid-rag": {
+      "transport": "stdio",
+      "command": ["uv", "run", "mcp_servers/rag_server.py"],
+      "timeout_ms": 150
+    },
+    "graphify-vault": {
+      "transport": "stdio",
+      "command": ["uv", "run", "mcp_servers/graphify_server.py"],
+      "timeout_ms": 40
+    },
+    "state-store": {
+      "transport": "streamable-http",
+      "url": "http://127.0.0.1:8081/mcp",
+      "pool_size": 200,
+      "timeout_ms": 60
+    }
+  },
+  "plugins": [
+    {"name": "pii_redactor", "hook": "pre_execution", "priority": 10, "fail_closed": true},
+    {"name": "injection_shield", "hook": "pre_execution", "priority": 20, "fail_closed": true},
+    {"name": "circuit_breaker", "hook": "tool_dispatch", "priority": 10, "max_failures": 2},
+    {"name": "ragas_auditor", "hook": "post_execution", "priority": 10, "faithfulness_min": 0.92},
+    {"name": "otel_exporter", "hook": "span", "scope": "all", "endpoint": "http://localhost:4317"}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "evidence_class": "indicative",
+  "note": "hand-labelled local set; not a population estimate",
+  "KPI-01_prehook_p95_ms": {
+    "value": 0.0118,
+    "target": "<=15",
+    "pass": true
+  },
+  "KPI-02_pii_recall": {
+    "value": 1.0,
+    "target": ">=0.998",
+    "pass": true,
+    "false_positives_on_negatives": 0
+  },
+  "KPI-03_injection_block": {
+    "value": 1.0,
+    "target": ">=0.995",
+    "pass": true,
+    "false_positives": 0
+  },
+  "KPI-04_triage_accuracy": {
+    "value": 1.0,
+    "target": ">=0.97",
+    "pass": true
+  },
+  "KPI-05_triage_p95_ms": {
+    "value": 0.0048,
+    "target": "<=25",
+    "pass": true
+  },
+  "KPI-06_false_refusal": {
+    "value": 0.0,
+    "target": "<=0.01",
+    "pass": true
+  }
+}

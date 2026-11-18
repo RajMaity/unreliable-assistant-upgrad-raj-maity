@@ -1,0 +1,118 @@
+// Gate 2 — workflow_orchestration (source of docs/workflow_orchestration.png)
+// Render: dot -Tpng -Gdpi=300 docs/workflow_orchestration.dot -o docs/workflow_orchestration.png
+digraph workflow_orchestration {
+  graph [rankdir=TB, fontname="Helvetica", fontsize=16, labelloc=t, nodesep=0.35, ranksep=0.55, compound=true,
+         label="The Unreliable Assistant — Workflow Orchestration (local PoC)\nGate 2 · design.md §1.3 / §1.7 ADR-007", bgcolor="white", pad=0.3];
+  node  [shape=box, style="rounded,filled", fillcolor="#F2F6FA", color="#4A6785", fontname="Helvetica", fontsize=11];
+  edge  [color="#4A6785", fontname="Helvetica", fontsize=9, arrowsize=0.7];
+
+  // ---------- Entry ----------
+  client [label="Client / Streamlit / k6\nPOST /api/v1/agent/query\n(X-Tenant-ID)", shape=cds, fillcolor="#FFFFFF"];
+
+  // ---------- Zone 1: Ingress & Security ----------
+  subgraph cluster_ingress {
+    label="1 · Ingress & Security Layer"; style="rounded,filled"; fillcolor="#EAF4EA"; color="#3C7A3C"; fontsize=13;
+    gw     [label="API Gateway\nNGINX/Envoy → FastAPI (async)"];
+    pii    [label="Pre-Exec Plugin\npii_redactor (prio 10, fail-closed)\nhook.pre · KPI-01 ≤15 ms"];
+    inj    [label="Pre-Exec Plugin\ninjection_shield (prio 20, fail-closed)"];
+    cache  [label="Redis Semantic Cache Check\nkey = SHA256(tenant_id:user_id:norm_query)\ncosine ≥ 0.92 · per-tenant only", shape=cylinder, fillcolor="#FFF8E1", color="#B08900"];
+    refuse [label="Refuse\n-32008 INJECTION_BLOCKED\n-32009 PII_BLOCKED", fillcolor="#FDECEA", color="#A33"];
+  }
+
+  // ---------- Zone 2: Triage & Subagent Routing ----------
+  subgraph cluster_triage {
+    label="2 · Triage & Subagent Routing"; style="rounded,filled"; fillcolor="#EEF0FA"; color="#4B4FA3"; fontsize=13;
+    triage [label="Triage Agent\ntemperature = 0.0 · ≤ 25 ms (KPI-05)\ntags (intent, domain, risk_tier, complexity)", fillcolor="#E4E7FA"];
+    direct [label="Direct Response\nDIRECT_ANSWER\n(LLM, no tools)"];
+    oos    [label="REJECT_OOS\ndeterministic out-of-scope reply", fillcolor="#FDECEA", color="#A33"];
+    retr   [label="Retrieval Subagent\nread-only · T1\nbinds: mcp-hybrid-rag, mcp-graphify-vault"];
+    exec   [label="Execution Subagent\nT2 / T3 · binds: mcp-state-store\nno RAG / web access"];
+    audit  [label="Audit (Verification) Subagent\nclaim→chunk NLI check · RAGAS triad\nindependent context · may veto"];
+  }
+
+  // ---------- Zone 3: MCP & 3-Stage RAG ----------
+  subgraph cluster_mcp {
+    label="3 · MCP JSON-RPC 2.0 & 3-Stage Hybrid RAG Pipeline"; style="rounded,filled"; fillcolor="#FFF4E8"; color="#B0641E"; fontsize=13;
+    rag_srv [label="mcp-hybrid-rag  (stdio, timeout 150 ms)\ntools/call hybrid_retrieve", fillcolor="#FFE9CC", color="#B0641E"];
+    bm25    [label="Stage 1 · BM25Okapi\nk1=1.25 b=0.75 top_k=50\n< 12 ms (KPI-07)"];
+    dense   [label="Stage 2 · Bi-Encoder + FAISS HNSW\nbge-large (512/64) efSearch=64\n< 25 ms (KPI-08)"];
+    rrf     [label="RRF fusion\nk=60 · dedup chunk_hash · pool 40\n< 3 ms"];
+    ce      [label="Stage 3 · Cross-Encoder (ONNX FP16)\nbge-reranker-v2-m3 · batch 32 · max_len 512\nrerank_k=4 · sigmoid > 0.42 · < 45 ms (KPI-09)"];
+    graph_srv [label="mcp-graphify-vault  (stdio)\ngraph_resolve_anchor → graph_subgraph\ndepth ≤ 2 · ~320 tok", fillcolor="#FFE9CC", color="#B0641E"];
+    state_srv [label="mcp-state-store  (streamable-HTTP :8081)\ncache · session facts · workflow · audit\nPostgres+pgvector / Redis Cluster", fillcolor="#FFE9CC", color="#B0641E"];
+  }
+
+  // ---------- Zone 4: Control Plane & Egress ----------
+  subgraph cluster_control {
+    label="4 · Control Plane & Egress"; style="rounded,filled"; fillcolor="#F7EEF9"; color="#7A3E8A"; fontsize=13;
+    abstain [label="Abstention short-circuit\ntop CE score < 0.42\n< 90 ms · no LLM call", fillcolor="#FDECEA", color="#A33"];
+    react   [label="Bounded ReAct Loop\nmax_steps = 5 · 450 ms total budget\nGoalAnchorBlock @ index 0\nINIT→TRIAGE→REASONING→TOOL_CALL→OBSERVATION→VERIFY"];
+    breaker [label="Circuit Breaker (TOOL_DISPATCH)\n(tool, canonical_args_hash) fails ≥ 2\n→ HALTED_BREAKER + remediation prompt", fillcolor="#FDECEA", color="#A33"];
+    hitl    [label="Tier 3 HITL Gate\nworkflow_transition / form_submit\n→ PENDING_APPROVAL (Postgres)\napprover ≠ requester", fillcolor="#FFF8E1", color="#B08900"];
+    llm     [label="LLM Generate (mock | api)\nobservations ≤ 180 tok\nTTFT p95 ≤ 180 ms (KPI-25)"];
+    post    [label="Post-Execution Plugins\nragas_auditor (faith ≥ 0.92)\nRAGAS off critical path"];
+    otel    [label="OTel Export (W3C traceparent)\notel_exporter → OTLP :4317 / console\nspans: hook.pre · cache.lookup · triage.classify · mcp.rag.* · agent.react.step · llm.generate · hook.post.ragas", shape=note, fillcolor="#FFFFFF"];
+    out     [label="Response + citations\n(or abstention / HITL pending)", shape=box, fillcolor="#E8F5E9", color="#2E7D32"];
+  }
+
+  // ---------- Edges: Ingress ----------
+  client -> gw;
+  gw -> pii;
+  pii -> inj   [label="pass"];
+  pii -> refuse [style=dashed, label="fail"];
+  inj -> refuse [style=dashed, label="block"];
+  inj -> cache;
+  cache -> out  [label="hit (≈53 ms p95)", color="#2E7D32", fontcolor="#2E7D32"];
+  cache -> triage [label="miss"];
+
+  // ---------- Triage routing ----------
+  triage -> direct;
+  triage -> oos;
+  triage -> retr  [label="HYBRID_RAG"];
+  triage -> exec  [label="TRANSACTION_EXEC"];
+  triage -> audit [style=dashed, label="verify draft"];
+
+  // ---------- Retrieval path ----------
+  retr -> rag_srv [label="JSON-RPC"];
+  retr -> graph_srv [label="JSON-RPC"];
+  rag_srv -> bm25;
+  rag_srv -> dense;
+  bm25 -> rrf;
+  dense -> rrf;
+  rrf -> ce;
+  ce -> abstain [label="top < 0.42", color="#A33", fontcolor="#A33"];
+  ce -> react   [label="top ≥ 0.42"];
+  graph_srv -> react;
+  abstain -> post;
+
+  // ---------- Execution path ----------
+  exec -> state_srv [label="JSON-RPC (HTTP)"];
+  exec -> hitl [label="Tier 3"];
+  hitl -> state_srv [style=dotted, label="audit_append", dir=back];
+
+  // ---------- Control plane ----------
+  direct -> llm;
+  react -> breaker [label="each TOOL_CALL"];
+  breaker -> react [style=dashed, label="retry ≤ 1 / state mutation"];
+  breaker -> llm   [label="ok"];
+  llm -> audit    [style=dashed, label="NLI claims"];
+  audit -> post   [label="grounded"];
+  audit -> react  [style=dashed, label="veto → re-REASON", color="#A33", fontcolor="#A33"];
+  llm -> post;
+  post -> out;
+  hitl -> out [style=dashed, label="PENDING_APPROVAL"];
+  oos -> out;
+
+  // ---------- Observability (dashed, all spans) ----------
+  post -> otel [style=dotted, arrowhead=none];
+  gw -> otel [style=dotted, arrowhead=none, constraint=false];
+
+  // ---------- Legend ----------
+  subgraph cluster_legend {
+    label="Legend"; fontsize=10; style="rounded"; color="#999999";
+    l1 [label="solid = control / data flow", shape=plaintext];
+    l2 [label="dashed = conditional / veto / failure path", shape=plaintext];
+    l3 [label="dotted = telemetry / audit side-channel", shape=plaintext];
+    l1 -> l2 -> l3 [style=invis];
+  }
+}

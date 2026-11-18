@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JMeter plan (design-only at 50K). Local single injector:
+     jmeter -n -t load_tests/jmeter_50k_plan.jmx -l results/local.jtl -JTHREADS=20 -JLOOPS=50 -->
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6">
+  <hashTree>
+    <TestPlan testname="Unreliable Assistant – query load" enabled="true">
+      <hashTree>
+        <ThreadGroup testname="Users" enabled="true">
+          <stringProp name="ThreadGroup.num_threads">${__P(THREADS,20)}</stringProp>
+          <stringProp name="ThreadGroup.ramp_time">${__P(RAMP,5)}</stringProp>
+          <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+            <stringProp name="LoopController.loops">${__P(LOOPS,50)}</stringProp>
+          </elementProp>
+          <hashTree>
+            <HTTPSamplerProxy testname="POST /query" enabled="true">
+              <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+              <stringProp name="HTTPSampler.port">8000</stringProp>
+              <stringProp name="HTTPSampler.path">/query</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{"tenant_id":"tenant_7","user_id":"user_1","session_id":"sess_ab12cd34ef","question":"What is the safety protocol for LOT-88392?","tier":"TIER_1_READ"}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+        </ThreadGroup>
+        <hashTree/>
+      </hashTree>
+    </TestPlan>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,30 @@
+# secrets and local config
+.env
+.env.*
+!.env.example
+
+# python / tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# local runtime state (never commit databases, pids or logs)
+results/state.sqlite3*
+results/*.pid
+results/*.log
+results/api.log
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# office lock files left open by LibreOffice
+Docs/.~lock.*

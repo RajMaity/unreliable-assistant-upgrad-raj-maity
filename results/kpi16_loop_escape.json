@@ -1,0 +1,7 @@
+{
+  "evidence_class": "indicative",
+  "runs": 200,
+  "terminal_or_escaped": 200,
+  "max_iterations_observed": 5,
+  "max_iterations_bound": 5
+}

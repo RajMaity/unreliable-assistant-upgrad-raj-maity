@@ -1,0 +1,15 @@
+{
+  "evidence_class": "indicative",
+  "KPI-14_first_pass_rate_over_all_calls": 0.754717,
+  "KPI-15_repair_success_on_repairable": 1.0,
+  "counts": {
+    "well_formed": 40,
+    "repairable": 8,
+    "unrepairable": 5,
+    "stats": {
+      "first_pass_ok": 40,
+      "repaired_ok": 8,
+      "repair_failed": 5
+    }
+  }
+}

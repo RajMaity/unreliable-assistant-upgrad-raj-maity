@@ -1,0 +1,14 @@
+{
+  "evidence_class": "indicative",
+  "note": "single local injector, single API worker, mock backends; not the 50K design run",
+  "concurrency": 20,
+  "requests": 400,
+  "rps": 133.825,
+  "p50_ms": 87.014,
+  "p95_ms": 373.532,
+  "p99_ms": 426.09,
+  "mean_ms": 144.315,
+  "rate_5xx": 0.0,
+  "KPI-34_target": "<=0.0005",
+  "KPI-35_target": ">=8500 RPS (design-only at 50K)"
+}

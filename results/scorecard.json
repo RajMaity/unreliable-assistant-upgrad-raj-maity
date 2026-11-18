@@ -1,0 +1,326 @@
+[
+  {
+    "id": "KPI-01",
+    "name": "pre-hook p95",
+    "target": "<=15 ms",
+    "value": "0.018",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "guards on a 10-question set; regex only"
+  },
+  {
+    "id": "KPI-02",
+    "name": "PII recall",
+    "target": ">=0.998",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "hand-labelled 20 positives; tuned together with the regexes, so optimistic"
+  },
+  {
+    "id": "KPI-03",
+    "name": "injection block (red team)",
+    "target": ">=0.995",
+    "value": "0.8333",
+    "passed": false,
+    "evidence": "indicative",
+    "note": "100-prompt red team; hand-labelled ingress set reports 1.0 but is weaker"
+  },
+  {
+    "id": "KPI-04",
+    "name": "triage accuracy",
+    "target": ">=0.97",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "15 hand-labelled questions"
+  },
+  {
+    "id": "KPI-05",
+    "name": "triage p95",
+    "target": "<=25 ms",
+    "value": "0.008",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-06",
+    "name": "false refusal",
+    "target": "<=0.01",
+    "value": "0",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "15 benign questions"
+  },
+  {
+    "id": "KPI-07",
+    "name": "BM25 p95",
+    "target": "<=12 ms",
+    "value": "0.960",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-08",
+    "name": "dense p95",
+    "target": "<=25 ms",
+    "value": "0.221",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-09",
+    "name": "rerank p95",
+    "target": "<=45 ms",
+    "value": "0.204",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-10",
+    "name": "recall",
+    "target": ">=0.92 @50",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "PROXY: measured @10 because the tool caps rerank_k at 10"
+  },
+  {
+    "id": "KPI-11",
+    "name": "precision@4",
+    "target": ">=0.88",
+    "value": "0.2857",
+    "passed": false,
+    "evidence": "indicative",
+    "note": "threshold 0.0 during eval, so off-topic chunks are included"
+  },
+  {
+    "id": "KPI-12",
+    "name": "MRR@4",
+    "target": ">=0.85",
+    "value": "0.9524",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-13",
+    "name": "nDCG@4",
+    "target": ">=0.86",
+    "value": "0.961",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-14",
+    "name": "first-pass validation",
+    "target": ">=0.96",
+    "value": "0.7547",
+    "passed": false,
+    "evidence": "indicative",
+    "note": "composition-driven: 13 of 53 calls are malformed by construction; not a model-behaviour estimate"
+  },
+  {
+    "id": "KPI-15",
+    "name": "auto-repair success",
+    "target": ">=0.90",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "8 repairable labelled entities; unrepairable ones are excluded"
+  },
+  {
+    "id": "KPI-16",
+    "name": "loop escape (all runs within bound)",
+    "target": "=1.0",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "200 adversarial runs; every run terminated within 5 iterations"
+  },
+  {
+    "id": "KPI-17",
+    "name": "mean ReAct steps",
+    "target": "<=2.2",
+    "value": "0.963",
+    "passed": true,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms"
+  },
+  {
+    "id": "KPI-18",
+    "name": "goal drift",
+    "target": ">=0.85",
+    "value": "not measured",
+    "passed": null,
+    "evidence": "design-only",
+    "note": "no drift metric implemented"
+  },
+  {
+    "id": "KPI-19",
+    "name": "Tier-3 HITL",
+    "target": "=1.0",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "100 Tier-3 attempts; 0 executed without approval"
+  },
+  {
+    "id": "KPI-20",
+    "name": "faithfulness (mean, LLM judge)",
+    "target": ">=0.92",
+    "value": "0.9261",
+    "passed": true,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms"
+  },
+  {
+    "id": "KPI-21",
+    "name": "answer relevancy (LLM judge)",
+    "target": ">=0.90",
+    "value": "0.9806",
+    "passed": true,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms"
+  },
+  {
+    "id": "KPI-22",
+    "name": "entity recall",
+    "target": ">=0.85",
+    "value": "0.9048",
+    "passed": true,
+    "evidence": "indicative",
+    "note": ""
+  },
+  {
+    "id": "KPI-23",
+    "name": "abstention accuracy",
+    "target": ">=0.98",
+    "value": "0.8889",
+    "passed": false,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms; 27 golden questions"
+  },
+  {
+    "id": "KPI-24",
+    "name": "hallucination (1 - faithfulness pass rate)",
+    "target": "<=0.005",
+    "value": "0.1667",
+    "passed": false,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms; per-answer judge score >= 0.92"
+  },
+  {
+    "id": "KPI-25",
+    "name": "LLM response p95 (full, non-streaming)",
+    "target": "<=180 ms",
+    "value": "2301",
+    "passed": false,
+    "evidence": "measured",
+    "note": "upper bound on TTFT: no streaming, so true TTFT is lower but not measured"
+  },
+  {
+    "id": "KPI-26",
+    "name": "token reduction",
+    "target": ">=0.45",
+    "value": "0",
+    "passed": false,
+    "evidence": "indicative",
+    "note": "budget never binds on these short notes, so reduction is 0"
+  },
+  {
+    "id": "KPI-27",
+    "name": "cache hit rate",
+    "target": ">=0.35",
+    "value": "0.3571",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "synthetic replay; includes first-pass semantic-tier hits"
+  },
+  {
+    "id": "KPI-28",
+    "name": "tenant isolation",
+    "target": "=1.0",
+    "value": "1",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "50 cross-tenant probes, each with a distinct tenant"
+  },
+  {
+    "id": "KPI-29",
+    "name": "cost per 1k queries",
+    "target": "<=$0.45",
+    "value": "not measured",
+    "passed": null,
+    "evidence": "design-only",
+    "note": "no billable model; mock LLM"
+  },
+  {
+    "id": "KPI-30",
+    "name": "MCP overhead p95",
+    "target": "<=4 ms",
+    "value": "not measured",
+    "passed": null,
+    "evidence": "design-only",
+    "note": "transport overhead not isolated locally"
+  },
+  {
+    "id": "KPI-31",
+    "name": "p50 end-to-end",
+    "target": "<=240 ms",
+    "value": "2125",
+    "passed": false,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms; proposed amended target <= 2500 ms: MET"
+  },
+  {
+    "id": "KPI-32",
+    "name": "p95 end-to-end",
+    "target": "<=450 ms",
+    "value": "3538",
+    "passed": false,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms; proposed amended target <= 4500 ms: MET"
+  },
+  {
+    "id": "KPI-33",
+    "name": "p99 end-to-end",
+    "target": "<=590 ms",
+    "value": "4930",
+    "passed": false,
+    "evidence": "measured",
+    "note": "live anthropic/claude-haiku-4.5 via OpenRouter; judge is the same model family (LLM-as-judge, not RAGAS); loop budget 450 ms; proposed amended target <= 6000 ms: MET"
+  },
+  {
+    "id": "KPI-34",
+    "name": "5xx rate",
+    "target": "<=0.0005",
+    "value": "0.000000",
+    "passed": true,
+    "evidence": "indicative",
+    "note": "local run only; the 50K run is design-only"
+  },
+  {
+    "id": "KPI-35",
+    "name": "throughput",
+    "target": ">=8500 RPS",
+    "value": "133.8",
+    "passed": false,
+    "evidence": "indicative",
+    "note": "single local injector and single worker; the 50K run is design-only"
+  },
+  {
+    "id": "KPI-36",
+    "name": "RSS growth",
+    "target": "<=3%",
+    "value": "not measured",
+    "passed": null,
+    "evidence": "design-only",
+    "note": "not measured in this PoC"
+  }
+]
